@@ -83,17 +83,14 @@ App.Router.map(function() {
     });
 });
 
-App.TodoList = Ember.Object.extend({
-    text: "Maine todo list",
-    isEditing: false,
-    lines: function() {
-        return this.get("text").split("\n");
-    }.property("text")
+App.TodoTask = Ember.Object.extend({
+    text: "New task",
+    isEditing: false
 })
 
 App.IndexRoute = Ember.Route.extend({
     model: function() {
-        return App.TodoList.create();
+        return [App.TodoTask.create()];
     },
     setupController: function(controller, m) {
         logger.log("seteando modelo del controlador");
@@ -103,18 +100,24 @@ App.IndexRoute = Ember.Route.extend({
     }
 });
 
-App.IndexController = Ember.Controller.extend({
+App.IndexController = Ember.ArrayController.extend({
     actions: {
-        editText: function() {
+        editTask: function(task) {
             logger.log("editing text");
-            var model = this.get("model");
-            model.set("isEditing", true);
+            task.set("isEditing", true);
 
         },
-        saveText: function() {
+        saveTask: function(task) {
             logger.log("saving text");
-            var model = this.get("model");
-            model.set("isEditing", false);
+            task.set("isEditing", false);
+        },
+        removeTask: function(task) {
+            var m = this.get("model");
+            m.removeAt(m.indexOf(task), 1);
+        },
+        addTask: function() {
+            var m = this.get("model");
+            m.pushObject(App.TodoTask.create());
         },
         closeApp: function() {
             Ti.UI.getCurrentWindow().close();

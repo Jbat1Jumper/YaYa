@@ -1,4 +1,3 @@
-
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -13,27 +12,27 @@
 		</script>
 		
 		<script type="text/x-handlebars" id="index">
-
 		<div style="padding: 20px">
-
-			{{#if model.isEditing}}
+			<div>
+				{{#each task in model}}
 				<div>
-				{{textarea value=model.text rows="10"}}
+					{{#if task.isEditing}}
+							{{textarea value=task.text rows="1"}}
+						<button {{action "saveTask" task}}>save</button>
+					{{else}}
+						<span>
+						{{task.text}}
+						</span>
+						<button style="float: right;" {{action "removeTask" task}}>rem</button>
+						<button style="float: right;" {{action "editTask" task}}>edit</button>
+					{{/if}}
 				</div>
-				<button {{action "saveText"}}>save</button>
-				<button {{action "closeApp"}}>exit</button>
-			{{else}}
-				<ul>
-				{{#each line in model.lines}}
-				<li>{{line}}</li>
+				<br/>
 				{{/each}}
-				</ul>
-				<button {{action "editText"}}>edit</button>
-				<button {{action "closeApp"}}>exit</button>
-			{{/if}}
-
+			</div>
+			<button {{action "addTask"}}>add</button>
+			<button {{action "closeApp"}}>exit</button>
 		</div>
-
 		</script>
 		<script src="app://js/jquery-1.10.2.js"></script>
 		<script src="app://js/easyUI/jquery.easyui.min.js"></script>
