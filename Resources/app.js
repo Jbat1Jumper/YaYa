@@ -5,11 +5,16 @@ App = Ember.Application.create({
     ready: function() {
         logger.log("app is ready");
         var me = this;
+
         var tray = Ti.UI.addTray("app://app_logo.png", function() {
             me.trayClicked();
         });
         this.set("tray", tray);
+
         var w = Ti.UI.getMainWindow();
+        w.addEventListener(Ti.UNFOCUSED, function() {
+            me.lostFocus();
+        });
     },
     trayClicked: function() {
         logger.log("tray icon clicked");
@@ -19,6 +24,12 @@ App = Ember.Application.create({
             w.hide();
             return;
         }
+
+        if (this.lostFocusRecently) {
+            logger.log("have lost focus recently, not showing")
+            return;
+        }
+
         logger.log("showing window");
 
         w.show();
@@ -26,7 +37,21 @@ App = Ember.Application.create({
         w.setTopMost(true);
         setTimeout(function() {
             w.setTopMost(false);
-        }, 30);
+        }, 20);
+    },
+    lostFocusRecently: false,
+    lostFocus: function() {
+        this.set("lostFocusRecently", true);
+        logger.log("lost focus");
+        var w = Ti.UI.getMainWindow();
+        w.setTopMost(false);
+        logger.log("hidding");
+        w.hide();
+
+        var me = this;
+        setTimeout(function() {
+            me.set("lostFocusRecently", false);
+        }, 800);
     }
 });
 
