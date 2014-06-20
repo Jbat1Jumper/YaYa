@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="app://js/easyUI/themes/metro/easyui.css">
 		<link rel="stylesheet" href="app://css/style.css">
 	</head>
-	<body style="width:100%;height:100%;">
+	<body style="width:100%;height:100%; border: 2px solid gray;">
 		<script type="text/x-handlebars">
 			{{outlet}}
 		</script>
@@ -21,6 +21,7 @@
 				{{textarea value=model.text rows="10"}}
 				</div>
 				<button {{action "saveText"}}>save</button>
+				<button {{action "closeApp"}}>exit</button>
 			{{else}}
 				<ul>
 				{{#each line in model.lines}}
@@ -28,6 +29,7 @@
 				{{/each}}
 				</ul>
 				<button {{action "editText"}}>edit</button>
+				<button {{action "closeApp"}}>exit</button>
 			{{/if}}
 
 		</div>

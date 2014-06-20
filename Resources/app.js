@@ -115,6 +115,9 @@ App.IndexController = Ember.Controller.extend({
             logger.log("saving text");
             var model = this.get("model");
             model.set("isEditing", false);
+        },
+        closeApp: function() {
+            Ti.UI.getCurrentWindow().close();
         }
     }
 })
