@@ -9,9 +9,24 @@ App = Ember.Application.create({
             me.trayClicked();
         });
         this.set("tray", tray);
+        var w = Ti.UI.getMainWindow();
     },
     trayClicked: function() {
         logger.log("tray icon clicked");
+        var w = Ti.UI.getMainWindow();
+        if (w.isVisible()) {
+            logger.log("hidding window");
+            w.hide();
+            return;
+        }
+        logger.log("showing window");
+
+        w.show();
+        w.focus();
+        w.setTopMost(true);
+        setTimeout(function() {
+            w.setTopMost(false);
+        }, 30);
     }
 });
 
