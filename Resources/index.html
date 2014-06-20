@@ -14,7 +14,19 @@
 		
 		<script type="text/x-handlebars" id="index">
 
-		<p style="padding: 20px">Maine super task manager</p>
+		<div style="padding: 20px">
+
+			{{#if model.isEditing}}
+				{{input type="text" value=model.text}}
+				<button {{action "saveText"}}>save</button>
+			{{else}}
+				<p>
+				{{model.text}}
+				</p>
+				<button {{action "editText"}}>edit</button>
+			{{/if}}
+
+		</div>
 
 		</script>
 		<script src="app://js/jquery-1.10.2.js"></script>

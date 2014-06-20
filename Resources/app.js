@@ -83,7 +83,35 @@ App.Router.map(function() {
     });
 });
 
+App.TodoList = Ember.Object.extend({
+    text: "Maine todo list",
+    isEditing: false
+})
+
 App.IndexRoute = Ember.Route.extend({
-    activate: function() {},
-    model: function() {}
+    model: function() {
+        return App.TodoList.create();
+    },
+    setupController: function(controller, m) {
+        logger.log("seteando modelo del controlador");
+        logger.debug("this is the controller: " + controller);
+        logger.debug("model text: " + m.text);
+        controller.set("model", m);
+    }
 });
+
+App.IndexController = Ember.Controller.extend({
+    actions: {
+        editText: function() {
+            logger.log("editing text");
+            var model = this.get("model");
+            model.set("isEditing", true);
+
+        },
+        saveText: function() {
+            logger.log("saving text");
+            var model = this.get("model");
+            model.set("isEditing", false);
+        }
+    }
+})
