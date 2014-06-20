@@ -5,6 +5,11 @@
 		<link rel="stylesheet" href="app://css/normalize.css">
 		<link rel="stylesheet" type="text/css" href="app://js/easyUI/themes/metro/easyui.css">
 		<link rel="stylesheet" href="app://css/style.css">
+		<style>
+			.left {
+				float: left;
+			}
+		</style>
 	</head>
 	<body style="width:100%;height:100%; border: 2px solid gray;">
 		<script type="text/x-handlebars">
@@ -15,25 +20,30 @@
 		<div style="padding: 20px">
 			<div>
 				{{#each task in model}}
-				<div>
-					{{#if task.isEditing}}
-							{{textarea value=task.text rows="1"}}
-						<button {{action "saveTask" task}}>save</button>
-					{{else}}
-						<span>
-						{{task.text}}
-						</span>
-						<button style="float: right;" {{action "removeTask" task}}>rem</button>
-						<button style="float: right;" {{action "editTask" task}}>edit</button>
-					{{/if}}
-				</div>
-				<br/>
+					{{task-holder task=task remove="removeTask"}}
+					<div style="clear: both;"></div>
 				{{/each}}
 			</div>
 			<button {{action "addTask"}}>add</button>
 			<button {{action "closeApp"}}>exit</button>
 		</div>
 		</script>
+
+		<script type="text/x-handlebars" id="components/task-holder">
+		<div style="height: 24px;">
+			{{#if task.isEditing}}
+				{{textarea value=task.text rows="1"}}
+				<button {{action "save"}}>save</button>
+			{{else}}
+				<span>
+				{{task.text}}
+				</span>
+				<button style="float: right;" {{action "removeThis"}}>rem</button>
+				<button style="float: right;" {{action "edit"}}>edit</button>
+			{{/if}}
+		</div>
+		</script>
+
 		<script src="app://js/jquery-1.10.2.js"></script>
 		<script src="app://js/easyUI/jquery.easyui.min.js"></script>
 		<script src="app://js/handlebars-1.1.2.js"></script>

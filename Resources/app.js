@@ -83,14 +83,45 @@ App.Router.map(function() {
     });
 });
 
-App.TodoTask = Ember.Object.extend({
+App.TaskObject = Ember.Object.extend({
     text: "New task",
-    isEditing: false
-})
+    isEditing: false,
+    subTasks: []
+});
+
+App.TaskHolderComponent = Ember.Component.extend({
+    actions: {
+        edit: function() {
+            logger.log("editing task");
+            var t = this.get("task");
+            t.set("isEditing", true);
+        },
+        save: function() {
+            logger.log("saving task");
+            var t = this.get("task");
+            t.set("isEditing", false);
+        },
+        removeThis: function() {
+            logger.log("removing this");
+            var t = this.get("task");
+            this.sendAction("remove", t);
+        },
+        removeChild: function(childTask) {
+            logger.log("removing child");
+            var t = this.get("task");
+            t.subTasks.removeAt(t.subTasks.indexOf(childTask), 1);
+        },
+        addChild: function() {
+            logger.log("adding child");
+            var t = this.get("task");
+            t.subTasks.pushObject(App.TaskObject.create());
+        }
+    }
+});
 
 App.IndexRoute = Ember.Route.extend({
     model: function() {
-        return [App.TodoTask.create()];
+        return [App.TaskObject.create()];
     },
     setupController: function(controller, m) {
         logger.log("seteando modelo del controlador");
@@ -102,24 +133,18 @@ App.IndexRoute = Ember.Route.extend({
 
 App.IndexController = Ember.ArrayController.extend({
     actions: {
-        editTask: function(task) {
-            logger.log("editing text");
-            task.set("isEditing", true);
-
-        },
-        saveTask: function(task) {
-            logger.log("saving text");
-            task.set("isEditing", false);
-        },
         removeTask: function(task) {
+            logger.log("removing main task");
             var m = this.get("model");
             m.removeAt(m.indexOf(task), 1);
         },
         addTask: function() {
+            logger.log("adding main task");
             var m = this.get("model");
-            m.pushObject(App.TodoTask.create());
+            m.pushObject(App.TaskObject.create());
         },
         closeApp: function() {
+            logger.log("closing app");
             Ti.UI.getCurrentWindow().close();
         }
     }
