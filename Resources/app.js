@@ -15,29 +15,46 @@ App = Ember.Application.create({
         w.addEventListener(Ti.UNFOCUSED, function() {
             me.lostFocus();
         });
+
+        this.moveToCorner();
+        this.hideWindow();
     },
     trayClicked: function() {
         logger.log("tray icon clicked");
         var w = Ti.UI.getMainWindow();
         if (w.isVisible()) {
-            logger.log("hidding window");
-            w.hide();
-            return;
-        }
-
+            this.hideWindow();
+        } else
         if (this.lostFocusRecently) {
             logger.log("have lost focus recently, not showing")
-            return;
+        } else {
+            this.moveToCorner();
+            this.showWindow();
         }
-
+    },
+    hideWindow: function() {
+        logger.log("hidding window");
+        var w = Ti.UI.getMainWindow();
+        w.hide();
+    },
+    showWindow: function() {
         logger.log("showing window");
-
+        var w = Ti.UI.getMainWindow();
         w.show();
         w.focus();
         w.setTopMost(true);
         setTimeout(function() {
             w.setTopMost(false);
-        }, 20);
+        }, 80);
+    },
+    moveToCorner: function() {
+        logger.log("moviendo ventana");
+        var w = Ti.UI.getMainWindow();
+        var width = w.getWidth();
+        var height = w.getHeight();
+        var wwidth = window.screen.width;
+        var wheight = window.screen.height;
+        w.moveTo(wwidth - width, wheight - height);
     },
     lostFocusRecently: false,
     lostFocus: function() {
