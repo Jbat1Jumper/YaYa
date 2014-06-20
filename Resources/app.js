@@ -85,7 +85,10 @@ App.Router.map(function() {
 
 App.TodoList = Ember.Object.extend({
     text: "Maine todo list",
-    isEditing: false
+    isEditing: false,
+    lines: function() {
+        return this.get("text").split("\n");
+    }.property("text")
 })
 
 App.IndexRoute = Ember.Route.extend({

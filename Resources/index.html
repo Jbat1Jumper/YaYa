@@ -17,12 +17,16 @@
 		<div style="padding: 20px">
 
 			{{#if model.isEditing}}
-				{{input type="text" value=model.text}}
+				<div>
+				{{textarea value=model.text rows="10"}}
+				</div>
 				<button {{action "saveText"}}>save</button>
 			{{else}}
-				<p>
-				{{model.text}}
-				</p>
+				<ul>
+				{{#each line in model.lines}}
+				<li>{{line}}</li>
+				{{/each}}
+				</ul>
 				<button {{action "editText"}}>edit</button>
 			{{/if}}
 
