@@ -1,0 +1,20 @@
+#appname:YaYa
+#appid:ar.com.locrogames.www
+#publisher:Nikita
+#image:app_logo.png
+#url:www.locrogames.com.ar
+#guid:059f75c2-965a-4840-8d22-3eb641e56c9a
+#desc:No description provided
+#type:desktop
+runtime:1.3.1-beta
+app:1.3.1-beta
+codec:1.3.1-beta
+database:1.3.1-beta
+filesystem:1.3.1-beta
+media:1.3.1-beta
+monkey:1.3.1-beta
+network:1.3.1-beta
+platform:1.3.1-beta
+process:1.3.1-beta
+ui:1.3.1-beta
+worker:1.3.1-beta

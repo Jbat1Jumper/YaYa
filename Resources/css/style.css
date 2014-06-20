@@ -1,0 +1,26 @@
+/* Put your CSS here */
+.ember-application {
+    margin: 0px 0px 0px;
+    padding: 0px;
+}
+
+body {
+  font-size:10px;
+}
+
+/* ITALIC PANIC */
+/*
+h1,h2,h3,h4,h5,h6,span,p {
+  font-style: italic;
+}
+*/
+body, html {
+  height: 100%; 
+  width: 100%;
+  overflow: hidden;
+}
+
+.n-full-size {
+  height: 100%;
+  width: 100%;
+}
