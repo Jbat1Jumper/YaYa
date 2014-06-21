@@ -19,32 +19,35 @@
 		<script type="text/x-handlebars" id="index">
 		<div style="padding: 20px">
 			<div>
-				{{#each task in model}}
+				{{#each task in model.tasks}}
 					{{task-holder task=task remove="removeTask"}}
 				{{/each}}
 			</div>
 			<button {{action "addTask"}}>+</button>
 			<button {{action "closeApp"}}>exit</button>
+			<button {{action "save"}}>save</button>
 		</div>
 		</script>
 
 		<script type="text/x-handlebars" id="components/task-holder">
-		<div style="border: 1px dotted Lavender; border-bottom-color: transparent;">
-			<div style="height: 23px;">
+		<div style="border: 1px dotted Gray; border-bottom: 0px solid transparent; border-right: 0px solid transparent;">
+			<div style="height: 24px;">
 				{{#if task.isEditing}}
-					{{textarea value=task.text rows="1"}}
-					<button {{action "save"}}>save</button>
+					{{view App.TaskNameEdit valueBinding="task.name" enterPress="save" lostFocus="save"}}
 				{{else}}
-					<span>
-					{{task.text}}
+					<span {{action "edit"}} sytle="min-width: 40px; min-height: 15px;">
+					{{#if task.name}}
+					{{task.name}}
+					{{else}}
+					---
+					{{/if}}
 					</span>
+				{{/if}}
 					<button style="float: right;" {{action "removeThis"}}>-</button>
 					<button style="float: right;" {{action "addChild"}}>+</button>
-					<button style="float: right;" {{action "edit"}}>edit</button>
-				{{/if}}
 			</div>
 			<div style="padding-left: 10px;">
-				{{#each subtask in task.subTasks}}
+				{{#each subtask in task.tasks}}
 					{{task-holder task=subtask remove="removeChild"}}
 				{{/each}}
 			</div>
