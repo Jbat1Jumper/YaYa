@@ -86,20 +86,32 @@ App.Router.map(function() {
 App.TaskObject = Ember.Object.extend({
     text: "New task",
     isEditing: false,
-    subTasks: []
+    subTasks: [],
+    init: function() {
+        logger.log("creating task object");
+    }
 });
+
+App.TaskRawObject = function() {
+    return {
+        text: "New task",
+        isEditing: false,
+        subTasks: [],
+    };
+};
 
 App.TaskHolderComponent = Ember.Component.extend({
     actions: {
         edit: function() {
             logger.log("editing task");
-            var t = this.get("task");
-            t.set("isEditing", true);
+            //var t = this.get("task");
+            //t.isEditing = true;
+            this.set("task.isEditing", true);
         },
         save: function() {
             logger.log("saving task");
-            var t = this.get("task");
-            t.set("isEditing", false);
+            //var t = this.get("task");
+            this.set("task.isEditing", false);
         },
         removeThis: function() {
             logger.log("removing this");
@@ -114,14 +126,17 @@ App.TaskHolderComponent = Ember.Component.extend({
         addChild: function() {
             logger.log("adding child");
             var t = this.get("task");
-            t.subTasks.pushObject(App.TaskObject.create());
+            t.subTasks.pushObject(App.TaskRawObject());
         }
     }
 });
 
 App.IndexRoute = Ember.Route.extend({
     model: function() {
-        return [App.TaskObject.create()];
+        var t = App.TaskRawObject();
+        t.subTasks.push(App.TaskRawObject());
+        t.subTasks.push(App.TaskRawObject());
+        return [t, App.TaskRawObject()];
     },
     setupController: function(controller, m) {
         logger.log("seteando modelo del controlador");
@@ -141,7 +156,7 @@ App.IndexController = Ember.ArrayController.extend({
         addTask: function() {
             logger.log("adding main task");
             var m = this.get("model");
-            m.pushObject(App.TaskObject.create());
+            m.pushObject(App.TaskRawObject());
         },
         closeApp: function() {
             logger.log("closing app");

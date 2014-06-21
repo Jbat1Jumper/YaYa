@@ -21,26 +21,33 @@
 			<div>
 				{{#each task in model}}
 					{{task-holder task=task remove="removeTask"}}
-					<div style="clear: both;"></div>
 				{{/each}}
 			</div>
-			<button {{action "addTask"}}>add</button>
+			<button {{action "addTask"}}>+</button>
 			<button {{action "closeApp"}}>exit</button>
 		</div>
 		</script>
 
 		<script type="text/x-handlebars" id="components/task-holder">
-		<div style="height: 24px;">
-			{{#if task.isEditing}}
-				{{textarea value=task.text rows="1"}}
-				<button {{action "save"}}>save</button>
-			{{else}}
-				<span>
-				{{task.text}}
-				</span>
-				<button style="float: right;" {{action "removeThis"}}>rem</button>
-				<button style="float: right;" {{action "edit"}}>edit</button>
-			{{/if}}
+		<div style="border: 1px dotted Lavender; border-bottom-color: transparent;">
+			<div style="height: 23px;">
+				{{#if task.isEditing}}
+					{{textarea value=task.text rows="1"}}
+					<button {{action "save"}}>save</button>
+				{{else}}
+					<span>
+					{{task.text}}
+					</span>
+					<button style="float: right;" {{action "removeThis"}}>-</button>
+					<button style="float: right;" {{action "addChild"}}>+</button>
+					<button style="float: right;" {{action "edit"}}>edit</button>
+				{{/if}}
+			</div>
+			<div style="padding-left: 10px;">
+				{{#each subtask in task.subTasks}}
+					{{task-holder task=subtask remove="removeChild"}}
+				{{/each}}
+			</div>
 		</div>
 		</script>
 
